@@ -46,7 +46,6 @@ class GLWidget
   private:
     void setupVertexAttribs();
 
-    bool m_core;
     int m_xRot;
     int m_yRot;
     int m_zRot;
