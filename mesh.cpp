@@ -44,6 +44,7 @@ Mesh::loadObj(const std::string& filename)
     std::cout << "# of materials : " << materials.size() << std::endl;
 
     m_data.clear();
+    m_bbox.makeEmpty();
 
     // For each shape
     for (size_t i = 0; i < shapes.size(); i++) {
@@ -83,4 +84,6 @@ Mesh::add(const QVector3D& v, const QVector3D& n)
     m_data.append(n.x());
     m_data.append(n.y());
     m_data.append(n.z());
+
+    m_bbox.extendBy(v);
 }

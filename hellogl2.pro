@@ -2,15 +2,16 @@ HEADERS       = glwidget.h \
                 window.h \
                 mainwindow.h \
                 tiny_obj_loader.h \
-    mesh.h
+                mesh.h \
+                box3d.h
 
 SOURCES       = glwidget.cpp \
                 main.cpp \
                 window.cpp \
                 mainwindow.cpp \
                 tiny_obj_loader.cpp \
-    mesh.cpp
+                mesh.cpp
 
 QT           += widgets
-CONFIG -= app_bundle
+CONFIG       -= app_bundle
 
