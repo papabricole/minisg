@@ -15,3 +15,6 @@ SOURCES       = glwidget.cpp \
 QT           += widgets
 CONFIG       -= app_bundle
 
+RESOURCES += \
+    resources.qrc
+
