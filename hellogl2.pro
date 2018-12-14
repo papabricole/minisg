@@ -12,7 +12,5 @@ SOURCES       = glwidget.cpp \
     mesh.cpp
 
 QT           += widgets
+CONFIG -= app_bundle
 
-# install
-target.path = $$[QT_INSTALL_EXAMPLES]/opengl/hellogl2
-INSTALLS += target

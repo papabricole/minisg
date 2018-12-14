@@ -51,9 +51,9 @@ class GLWidget
     int m_yRot;
     int m_zRot;
     QPoint m_lastPos;
-    Mesh m_logo;
+    Mesh m_mesh;
     QOpenGLVertexArrayObject m_vao;
-    QOpenGLBuffer m_logoVbo;
+    QOpenGLBuffer m_meshVbo;
     QOpenGLShaderProgram* m_program;
     int m_projMatrixLoc;
     int m_mvMatrixLoc;
