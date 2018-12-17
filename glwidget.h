@@ -5,6 +5,8 @@
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
 #include <QMatrix4x4>
+#include <QVector2D>
+
 #include "mesh.h"
 
 QT_FORWARD_DECLARE_CLASS(QOpenGLShaderProgram)
@@ -45,11 +47,17 @@ class GLWidget
 
   private:
     void setupVertexAttribs();
+    void viewAll();
+    QVector2D getNormalizedPosition(const QPoint& pos) const
+    {
+        return QVector2D(pos.x() / float(width()), pos.y() / float(height()));
+    }
 
     int m_xRot;
     int m_yRot;
     int m_zRot;
     QPoint m_lastPos;
+    QMatrix4x4 m_lastWworld;
     Mesh m_mesh;
     QOpenGLVertexArrayObject m_vao;
     QOpenGLBuffer m_meshVbo;

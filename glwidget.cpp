@@ -53,9 +53,61 @@
 #include <QOpenGLShaderProgram>
 #include <QCoreApplication>
 #include <QResource>
-#include <math.h>
+#include <cmath>
 
 bool GLWidget::m_transparent = false;
+
+QVector3D
+sphereSheetProjector(const QVector2D& pos)
+{
+    QVector3D rayOrigin(pos.x() - 0.5f, 0.5f - pos.y(), -0.5f);
+    const QVector3D rayDirection(0, 0, 1);
+    const QVector3D sphereOrigin(0, 0, 0);
+    const float sphereRadius = 0.35f;
+
+    // ray / sphere intersection
+    const QVector3D r_to_s = rayOrigin - sphereOrigin;
+
+    // Compute A, B and C coefficients
+    const float A = rayDirection.lengthSquared();
+    const float B = 2.0f * QVector3D::dotProduct(r_to_s, rayDirection);
+    const float C = r_to_s.lengthSquared() - sphereRadius * sphereRadius;
+
+    // Find discriminant
+    const float disc = B * B - 4.0 * A * C;
+
+    // if discriminant is negative there are no real roots
+    if (disc >= 0.0) {
+        const float t0 = (-B + std::sqrt(disc)) / (2.0 * A);
+        if (t0 > 0) {
+            rayOrigin = rayOrigin + t0 * rayDirection;
+        }
+    }
+
+    // intersection with the sheet
+    const QVector3D planeHit =
+      rayOrigin + rayDirection * rayOrigin.distanceToPlane(sphereOrigin, -rayDirection);
+
+    // distance from plane hit point to plane center in the projector
+    const float planarDist = (planeHit - sphereOrigin).length();
+
+    // let sphere and hyperbolic sheet meet at 45°
+    const float meetDist = sphereRadius * (float)std::cos(M_PI / 4.0);
+
+    if (planarDist < meetDist)
+        return rayOrigin;
+
+    // By Pythagoras' we know that the value of the sphere at 45°
+    // angle from the groundplane will be (radius^2 * 0.5).
+    const float v = (sphereRadius * sphereRadius) * 0.5f;
+
+    // A hyperbolic function is given by y = 1 / x, where x in our
+    // case is the "radial" distance from the plane centerpoint to the
+    // plane intersection point.
+    const float hyperbval = (1.0f / planarDist) * v;
+
+    return planeHit + QVector3D(0.0f, 0.0f, hyperbval);
+}
 
 GLWidget::GLWidget(QWidget* parent)
   : QOpenGLWidget(parent)
@@ -190,14 +242,12 @@ GLWidget::initializeGL()
     // Store the vertex attribute bindings for the program.
     setupVertexAttribs();
 
-    // Our camera never changes in this example.
-    m_camera.setToIdentity();
-    m_camera.translate(0, 0, -1);
-
     // Light position is fixed.
     m_program->setUniformValue(m_lightPosLoc, QVector3D(0, 0, 70));
 
     m_program->release();
+
+    viewAll();
 }
 
 void
@@ -207,7 +257,7 @@ GLWidget::setupVertexAttribs()
     QOpenGLFunctions* f = QOpenGLContext::currentContext()->functions();
     f->glEnableVertexAttribArray(0);
     f->glEnableVertexAttribArray(1);
-    f->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), 0);
+    f->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), nullptr);
     f->glVertexAttribPointer(
       1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), reinterpret_cast<void*>(3 * sizeof(GLfloat)));
     m_meshVbo.release();
@@ -220,10 +270,11 @@ GLWidget::paintGL()
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
 
-    m_world.setToIdentity();
-    m_world.rotate(180.0f - (m_xRot / 16.0f), 1, 0, 0);
-    m_world.rotate(m_yRot / 16.0f, 0, 1, 0);
-    m_world.rotate(m_zRot / 16.0f, 0, 0, 1);
+    // m_world.setToIdentity();
+    // m_world.rotate(180.0f - (m_xRot / 16.0f), 1, 0, 0);
+    // m_world.rotate(m_xRot / 16.0f, 1, 0, 0);
+    // m_world.rotate(m_yRot / 16.0f, 0, 1, 0);
+    // m_world.rotate(m_zRot / 16.0f, 0, 0, 1);
 
     QOpenGLVertexArrayObject::Binder vaoBinder(&m_vao);
     m_program->bind();
@@ -248,11 +299,13 @@ void
 GLWidget::mousePressEvent(QMouseEvent* event)
 {
     m_lastPos = event->pos();
+    m_lastWworld = m_world;
 }
 
 void
 GLWidget::mouseMoveEvent(QMouseEvent* event)
 {
+#if 0
     int dx = event->x() - m_lastPos.x();
     int dy = event->y() - m_lastPos.y();
 
@@ -264,4 +317,34 @@ GLWidget::mouseMoveEvent(QMouseEvent* event)
         setZRotation(m_zRot + 8 * dx);
     }
     m_lastPos = event->pos();
+#else
+    if (event->buttons() & Qt::LeftButton) {
+        const QVector3D lstart = sphereSheetProjector(getNormalizedPosition(m_lastPos));
+        const QVector3D lend = sphereSheetProjector(getNormalizedPosition(event->pos()));
+        const QQuaternion rotation = QQuaternion::rotationTo(lstart, lend);
+
+        m_world.setToIdentity();
+        m_world.rotate(rotation);
+        m_world *= m_lastWworld;
+        update();
+    }
+#endif
+}
+
+void
+GLWidget::viewAll()
+{
+    const Box3D& bbox = m_mesh.box();
+
+    // bounding sphere radius
+    const float radius = (bbox.max() - bbox.center()).length();
+    const float fov = 45;
+
+    // Find the distance necessary to fit the object completely in the
+    // window.  We don't need any slack, because the bounding sphere
+    // is already bigger than the bounding box.
+    const float distance = radius / std::sin(fov * 0.5f);
+
+    m_camera.setToIdentity();
+    m_camera.lookAt(bbox.center() - QVector3D(0, 0, distance), bbox.center(), QVector3D(0, 1, 0));
 }

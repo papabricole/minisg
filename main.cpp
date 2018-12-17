@@ -92,7 +92,7 @@ main(int argc, char* argv[])
         mainWindow.setAttribute(Qt::WA_TranslucentBackground);
         mainWindow.setAttribute(Qt::WA_NoSystemBackground, false);
     }
-    mainWindow.resize(mainWindow.sizeHint());
+    mainWindow.resize(800, 600);
     int desktopArea = QApplication::desktop()->width() * QApplication::desktop()->height();
     int widgetArea = mainWindow.width() * mainWindow.height();
     if (((float)widgetArea / (float)desktopArea) < 0.75f)

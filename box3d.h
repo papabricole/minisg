@@ -40,11 +40,7 @@ class Box3D
 
     QVector3D size() const { return m_max - m_min; }
 
-    QVector3D center() const
-    {
-        return QVector3D(
-          (m_max[0] + m_min[0]) * 0.5f, (m_max[1] + m_min[1]) * 0.5f, (m_max[2] + m_min[2]) * 0.5f);
-    }
+    QVector3D center() const { return 0.5f * (m_min + m_max); }
 
     void extendBy(const QVector3D& a_point)
     {
