@@ -278,8 +278,8 @@ GLWidget::paintGL()
 
     QOpenGLVertexArrayObject::Binder vaoBinder(&m_vao);
     m_program->bind();
-    m_program->setUniformValue(m_projMatrixLoc, m_proj);
-    m_program->setUniformValue(m_mvMatrixLoc, m_camera * m_world);
+    m_program->setUniformValue(m_projMatrixLoc, m_camera.projectionMatrix());
+    m_program->setUniformValue(m_mvMatrixLoc, m_camera.viewMatrix() * m_world);
     QMatrix3x3 normalMatrix = m_world.normalMatrix();
     m_program->setUniformValue(m_normalMatrixLoc, normalMatrix);
 
@@ -291,15 +291,14 @@ GLWidget::paintGL()
 void
 GLWidget::resizeGL(int w, int h)
 {
-    m_proj.setToIdentity();
-    m_proj.perspective(45.0f, GLfloat(w) / h, 0.01f, 100.0f);
+    m_camera.setAspectRatio(GLfloat(w) / h);
 }
 
 void
 GLWidget::mousePressEvent(QMouseEvent* event)
 {
     m_lastPos = event->pos();
-    m_lastWworld = m_world;
+    m_lastWorld = m_world;
 }
 
 void
@@ -325,7 +324,7 @@ GLWidget::mouseMoveEvent(QMouseEvent* event)
 
         m_world.setToIdentity();
         m_world.rotate(rotation);
-        m_world *= m_lastWworld;
+        m_world *= m_lastWorld;
         update();
     }
 #endif
@@ -334,17 +333,5 @@ GLWidget::mouseMoveEvent(QMouseEvent* event)
 void
 GLWidget::viewAll()
 {
-    const Box3D& bbox = m_mesh.box();
-
-    // bounding sphere radius
-    const float radius = (bbox.max() - bbox.center()).length();
-    const float fov = 45;
-
-    // Find the distance necessary to fit the object completely in the
-    // window.  We don't need any slack, because the bounding sphere
-    // is already bigger than the bounding box.
-    const float distance = radius / std::sin(fov * 0.5f);
-
-    m_camera.setToIdentity();
-    m_camera.lookAt(bbox.center() - QVector3D(0, 0, distance), bbox.center(), QVector3D(0, 1, 0));
+    m_camera.viewBoundingBox(m_mesh.box());
 }
