@@ -60,9 +60,11 @@
 #include <QApplication>
 #include <QMessageBox>
 
-Window::Window(MainWindow *mw)
-    : mainWindow(mw)
+Window::Window(MainWindow* mw)
+  : mainWindow(mw)
 {
+    setFocusPolicy(Qt::StrongFocus);
+
     glWidget = new GLWidget;
 
     xSlider = createSlider();
@@ -76,19 +78,16 @@ Window::Window(MainWindow *mw)
     connect(zSlider, &QSlider::valueChanged, glWidget, &GLWidget::setZRotation);
     connect(glWidget, &GLWidget::zRotationChanged, zSlider, &QSlider::setValue);
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
-    QHBoxLayout *container = new QHBoxLayout;
+    QVBoxLayout* mainLayout = new QVBoxLayout;
+    QHBoxLayout* container = new QHBoxLayout;
     container->addWidget(glWidget);
     container->addWidget(xSlider);
     container->addWidget(ySlider);
     container->addWidget(zSlider);
 
-    QWidget *w = new QWidget;
+    QWidget* w = new QWidget;
     w->setLayout(container);
     mainLayout->addWidget(w);
-    dockBtn = new QPushButton(tr("Undock"), this);
-    connect(dockBtn, &QPushButton::clicked, this, &Window::dockUndock);
-    mainLayout->addWidget(dockBtn);
 
     setLayout(mainLayout);
 
@@ -99,9 +98,10 @@ Window::Window(MainWindow *mw)
     setWindowTitle(tr("Hello GL"));
 }
 
-QSlider *Window::createSlider()
+QSlider*
+Window::createSlider()
 {
-    QSlider *slider = new QSlider(Qt::Vertical);
+    QSlider* slider = new QSlider(Qt::Vertical);
     slider->setRange(0, 360 * 16);
     slider->setSingleStep(16);
     slider->setPageStep(15 * 16);
@@ -110,34 +110,14 @@ QSlider *Window::createSlider()
     return slider;
 }
 
-void Window::keyPressEvent(QKeyEvent *e)
+void
+Window::keyPressEvent(QKeyEvent* e)
 {
     if (e->key() == Qt::Key_Escape)
         close();
-    else
+    else if (e->key() == Qt::Key_Space) {
+        printf("viewAll\n");
+        glWidget->viewAll();
+    } else
         QWidget::keyPressEvent(e);
-}
-
-void Window::dockUndock()
-{
-    if (parent()) {
-        setParent(0);
-        setAttribute(Qt::WA_DeleteOnClose);
-        move(QApplication::desktop()->width() / 2 - width() / 2,
-             QApplication::desktop()->height() / 2 - height() / 2);
-        dockBtn->setText(tr("Dock"));
-        show();
-    } else {
-        if (!mainWindow->centralWidget()) {
-            if (mainWindow->isVisible()) {
-                setAttribute(Qt::WA_DeleteOnClose, false);
-                dockBtn->setText(tr("Undock"));
-                mainWindow->setCentralWidget(this);
-            } else {
-                QMessageBox::information(0, tr("Cannot dock"), tr("Main window already closed"));
-            }
-        } else {
-            QMessageBox::information(0, tr("Cannot dock"), tr("Main window already occupied"));
-        }
-    }
 }
