@@ -6,9 +6,12 @@
 #include <QVector>
 #include <QVector3D>
 
+#include <node.h>
 #include <box3d.h>
 
-class Mesh
+namespace msg {
+
+class Mesh : public Node
 {
   public:
     Mesh();
@@ -23,3 +26,4 @@ class Mesh
     QVector<GLfloat> m_data;
     Box3D m_bbox;
 };
+}

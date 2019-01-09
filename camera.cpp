@@ -4,6 +4,8 @@
 
 #include <QtMath>
 
+namespace msg {
+
 Camera::Camera()
   : m_nearDistance(0.01f)
   , m_farDistance(100.f)
@@ -69,4 +71,5 @@ Camera::viewBoundingBox(const Box3D& bbox)
 
     m_view.setToIdentity();
     m_view.lookAt(m_position, bbox.center(), QVector3D(0, 1, 0));
+}
 }

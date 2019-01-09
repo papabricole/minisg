@@ -5,7 +5,7 @@
 #include <cassert>
 
 bool
-LoadObj(const std::string& filename, Mesh& mesh)
+LoadObj(const std::string& filename, msg::Mesh& mesh)
 {
     const bool triangulate = true;
     const char* basepath = nullptr;

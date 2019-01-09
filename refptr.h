@@ -3,20 +3,22 @@
 namespace utils {
 
 template<typename T>
-class refptr {
-public:
-    refptr() : p(0)
-    {
+class refptr
+{
+  public:
+    refptr()
+      : p(0)
+    {}
 
-    }
-
-    refptr(T *other) : p(other)
+    refptr(T* other)
+      : p(other)
     {
         if (p)
             p->ref();
     }
 
-    refptr(const refptr<T> &other) : p(other.p)
+    refptr(const refptr<T>& other)
+      : p(other.p)
     {
         if (p)
             p->ref();
@@ -31,15 +33,15 @@ public:
         }
     }
 
-    refptr<T> &operator=(const refptr<T> &other)
+    refptr<T>& operator=(const refptr<T>& other)
     {
-        *this=other.p;
+        *this = other.p;
         return *this;
     }
 
-    refptr<T> &operator=(T *other)
+    refptr<T>& operator=(T* other)
     {
-        if(p!=other) {
+        if (p != other) {
             T* backup = p;
             p = other;
             if (p)
@@ -50,24 +52,24 @@ public:
         return *this;
     }
 
-    operator bool() const { return p!=0; }
-    T *operator->() const { return p; }
-    T &operator*() const { return *p; }
+    operator bool() const { return p != 0; }
+    T* operator->() const { return p; }
+    T& operator*() const { return *p; }
+    operator T*() const { return p; }
     T* get() const { return p; }
 
-private:
-    T *p;
+  private:
+    T* p;
 };
 
 class refcounted
 {
-public:
-    void ref() {
-        refcount++;
-    }
+  public:
+    void ref() { refcount++; }
 
-    void unref() {
-        if (--refcount<=0) {
+    void unref()
+    {
+        if (--refcount <= 0) {
             destroy();
         }
     }
@@ -78,24 +80,24 @@ public:
         an object to a zero-reference-count state, like it was when it was
         created.
     */
-    void unrefNoDelete() {
-        refcount--;
-    }
+    void unrefNoDelete() { refcount--; }
 
-    int getRefCount() const {
-        return refcount;
-    }
-protected:
-    virtual ~refcounted() { }
+    int getRefCount() const { return refcount; }
 
-    virtual void destroy() {
-        delete this;
-    }
+  protected:
+    virtual ~refcounted() {}
 
-    refcounted() : refcount(0) { }
-    refcounted(const refcounted &) : refcount(0) { }
-    refcounted & operator=(const refcounted &) { return *this;}
-private:
+    virtual void destroy() { delete this; }
+
+    refcounted()
+      : refcount(0)
+    {}
+    refcounted(const refcounted&)
+      : refcount(0)
+    {}
+    refcounted& operator=(const refcounted&) { return *this; }
+
+  private:
     int refcount;
 };
 

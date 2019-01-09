@@ -124,8 +124,13 @@ GLWidget::GLWidget(QWidget* parent)
         fmt.setAlphaBufferSize(8);
         setFormat(fmt);
     }
-    m_mesh;
-    LoadObj("female-usertest.obj", m_mesh);
+    m_root = new msg::Group();
+    m_mesh = new msg::Mesh();
+    m_camera = new msg::Camera();
+    m_root->addChild(m_camera);
+    m_root->addChild(m_mesh);
+
+    LoadObj("female-usertest.obj", *m_mesh);
 }
 
 GLWidget::~GLWidget()
@@ -239,7 +244,7 @@ GLWidget::initializeGL()
     // Setup our vertex buffer object.
     m_meshVbo.create();
     m_meshVbo.bind();
-    m_meshVbo.allocate(m_mesh.constData(), m_mesh.count() * sizeof(GLfloat));
+    m_meshVbo.allocate(m_mesh->constData(), m_mesh->count() * sizeof(GLfloat));
 
     // Store the vertex attribute bindings for the program.
     setupVertexAttribs();
@@ -280,12 +285,12 @@ GLWidget::paintGL()
 
     QOpenGLVertexArrayObject::Binder vaoBinder(&m_vao);
     m_program->bind();
-    m_program->setUniformValue(m_projMatrixLoc, m_camera.projectionMatrix());
-    m_program->setUniformValue(m_mvMatrixLoc, m_camera.viewMatrix() * m_world);
+    m_program->setUniformValue(m_projMatrixLoc, m_camera->projectionMatrix());
+    m_program->setUniformValue(m_mvMatrixLoc, m_camera->viewMatrix() * m_world);
     QMatrix3x3 normalMatrix = m_world.normalMatrix();
     m_program->setUniformValue(m_normalMatrixLoc, normalMatrix);
 
-    glDrawArrays(GL_TRIANGLES, 0, m_mesh.vertexCount());
+    glDrawArrays(GL_TRIANGLES, 0, m_mesh->vertexCount());
 
     m_program->release();
 }
@@ -293,7 +298,7 @@ GLWidget::paintGL()
 void
 GLWidget::resizeGL(int w, int h)
 {
-    m_camera.setAspectRatio(GLfloat(w) / h);
+    m_camera->setAspectRatio(GLfloat(w) / h);
 }
 
 void
@@ -335,11 +340,11 @@ GLWidget::mouseMoveEvent(QMouseEvent* event)
 void
 GLWidget::viewAll()
 {
-    QVector3D center = m_world * m_mesh.box().center();
+    QVector3D center = m_world * m_mesh->box().center();
 
     // m_camera.viewBoundingBox(m_mesh.box());
-    m_camera.viewBoundingBox(
-      Box3D(center - 0.5f * m_mesh.box().size(), center + 0.5f * m_mesh.box().size()));
+    m_camera->viewBoundingBox(
+      Box3D(center - 0.5f * m_mesh->box().size(), center + 0.5f * m_mesh->box().size()));
 
     update();
 }

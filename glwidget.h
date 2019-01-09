@@ -9,6 +9,7 @@
 
 #include "camera.h"
 #include "mesh.h"
+#include <group.h>
 
 QT_FORWARD_DECLARE_CLASS(QOpenGLShaderProgram)
 
@@ -54,12 +55,14 @@ class GLWidget
         return QVector2D(pos.x() / float(width()), pos.y() / float(height()));
     }
 
+    utils::refptr<msg::Group> m_root;
+
     int m_xRot;
     int m_yRot;
     int m_zRot;
     QPoint m_lastPos;
     QMatrix4x4 m_lastWorld;
-    Mesh m_mesh;
+    utils::refptr<msg::Mesh> m_mesh;
     QOpenGLVertexArrayObject m_vao;
     QOpenGLBuffer m_meshVbo;
     QOpenGLShaderProgram* m_program;
@@ -67,7 +70,7 @@ class GLWidget
     int m_mvMatrixLoc;
     int m_normalMatrixLoc;
     int m_lightPosLoc;
-    Camera m_camera;
+    utils::refptr<msg::Camera> m_camera;
     QMatrix4x4 m_world;
     static bool m_transparent;
 };

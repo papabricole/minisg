@@ -1,5 +1,6 @@
 #include "mesh.h"
 
+namespace msg {
 Mesh::Mesh()
 {
     m_data.reserve(2500 * 6);
@@ -16,4 +17,5 @@ Mesh::add(const QVector3D& v, const QVector3D& n)
     m_data.append(n.z());
 
     m_bbox.extendBy(v);
+}
 }

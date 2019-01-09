@@ -2,9 +2,12 @@
 
 #include <QMatrix4x4>
 
+#include <node.h>
 #include <box3d.h>
 
-class Camera
+namespace msg {
+
+class Camera : public Node
 {
   public:
     Camera();
@@ -33,3 +36,4 @@ class Camera
     QMatrix4x4 m_proj;
     QMatrix4x4 m_view;
 };
+}

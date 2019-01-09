@@ -3,4 +3,4 @@
 #include "mesh.h"
 
 bool
-LoadObj(const std::string& filename, Mesh& mesh);
+LoadObj(const std::string& filename, msg::Mesh& mesh);

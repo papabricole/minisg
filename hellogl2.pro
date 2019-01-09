@@ -4,7 +4,13 @@ HEADERS       = glwidget.h \
                 mesh.h \
                 box3d.h \
                 camera.h \
-    meshloader.h
+    meshloader.h \
+    node.h \
+    group.h \
+    refptr.h \
+    action.h \
+    renderaction.h \
+    base.h
 
 SOURCES       = glwidget.cpp \
                 main.cpp \
@@ -12,7 +18,12 @@ SOURCES       = glwidget.cpp \
                 tiny_obj_loader.cpp \
                 mesh.cpp \
                 camera.cpp \
-    meshloader.cpp
+    meshloader.cpp \
+    node.cpp \
+    group.cpp \
+    action.cpp \
+    renderaction.cpp \
+    base.cpp
 
 QT           += widgets
 CONFIG       -= app_bundle
