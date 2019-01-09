@@ -49,6 +49,7 @@
 ****************************************************************************/
 
 #include "glwidget.h"
+#include "meshloader.h"
 #include <QMouseEvent>
 #include <QOpenGLShaderProgram>
 #include <QCoreApplication>
@@ -123,7 +124,8 @@ GLWidget::GLWidget(QWidget* parent)
         fmt.setAlphaBufferSize(8);
         setFormat(fmt);
     }
-    m_mesh.loadObj("female-usertest.obj");
+    m_mesh;
+    LoadObj("female-usertest.obj", m_mesh);
 }
 
 GLWidget::~GLWidget()

@@ -17,11 +17,9 @@ class Mesh
     int vertexCount() const { return m_data.size() / 6; }
     const Box3D& box() const { return m_bbox; }
 
-    bool loadObj(const std::string& filename);
-
-  private:
     void add(const QVector3D& v, const QVector3D& n);
 
+  private:
     QVector<GLfloat> m_data;
     Box3D m_bbox;
 };
