@@ -29,6 +29,7 @@ class Camera
   private:
     float m_nearDistance, m_farDistance, m_fov, m_aspect, m_focalDistance;
     QVector3D m_position;
+    QQuaternion m_rotation;
     QMatrix4x4 m_proj;
     QMatrix4x4 m_view;
 };

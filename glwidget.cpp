@@ -333,5 +333,11 @@ GLWidget::mouseMoveEvent(QMouseEvent* event)
 void
 GLWidget::viewAll()
 {
-    m_camera.viewBoundingBox(m_mesh.box());
+    QVector3D center = m_world * m_mesh.box().center();
+
+    // m_camera.viewBoundingBox(m_mesh.box());
+    m_camera.viewBoundingBox(
+      Box3D(center - 0.5f * m_mesh.box().size(), center + 0.5f * m_mesh.box().size()));
+
+    update();
 }

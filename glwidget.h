@@ -33,6 +33,7 @@ class GLWidget
     void setYRotation(int angle);
     void setZRotation(int angle);
     void cleanup();
+    void viewAll();
 
   signals:
     void xRotationChanged(int angle);
@@ -48,7 +49,6 @@ class GLWidget
 
   private:
     void setupVertexAttribs();
-    void viewAll();
     QVector2D getNormalizedPosition(const QPoint& pos) const
     {
         return QVector2D(pos.x() / float(width()), pos.y() / float(height()));
