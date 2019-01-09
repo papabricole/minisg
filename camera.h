@@ -9,7 +9,7 @@ namespace msg {
 
 class Camera : public Node
 {
-    VISITOR_ACCEPT(Camera)
+    NODE_HEADER(Camera)
   public:
     Camera();
 

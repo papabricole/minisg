@@ -13,8 +13,7 @@ class RenderAction : public Action
   public:
     RenderAction();
 
-    virtual void visit(Node* node);
-    virtual void visit(Group* node);
-    virtual void visit(Camera* node);
+  protected:
+    virtual void traverse(Node* node) override;
 };
 }

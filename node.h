@@ -4,16 +4,17 @@
 
 namespace msg {
 
-#define VISITOR_ACCEPT(classname)                                                                  \
+#define NODE_HEADER(classname)                                                                     \
   public:                                                                                          \
-    virtual std::string className() const override { return #classname; }                          \
-    virtual void accept(Action* action) override { action->visit(this); }
+    virtual std::string className() const override { return #classname; }
 
 class Node : public Base
 {
-    VISITOR_ACCEPT(Node)
+    NODE_HEADER(Node)
   public:
     Node();
+
+    void render() {}
 
   protected:
     virtual ~Node();

@@ -10,20 +10,8 @@ namespace msg {
 RenderAction::RenderAction() {}
 
 void
-RenderAction::visit(Node* node)
+RenderAction::traverse(Node* node)
 {
-    std::cout << "Node visiting: " << node->className() << std::endl;
-}
-
-void
-RenderAction::visit(Group* node)
-{
-    std::cout << "Group visiting: " << node->className() << std::endl;
-}
-
-void
-RenderAction::visit(Camera* node)
-{
-    std::cout << "Camera visiting: " << node->className() << std::endl;
+    node->render();
 }
 }

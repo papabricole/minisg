@@ -8,7 +8,7 @@ namespace msg {
 
 class Group : public Node
 {
-    VISITOR_ACCEPT(Group)
+    NODE_HEADER(Group)
   public:
     Group();
 

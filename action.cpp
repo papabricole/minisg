@@ -6,14 +6,14 @@ namespace msg {
 Action::Action() {}
 
 void
-Action::apply(Node* root)
+Action::apply(Node* node)
 {
-    root->accept(this);
+    traverse(node);
 
-    Group* group = dynamic_cast<Group*>(root);
+    Group* group = dynamic_cast<Group*>(node);
     if (group) {
-        for (Node* node : group->children()) {
-            apply(node);
+        for (Node* child : group->children()) {
+            apply(child);
         }
     }
 }

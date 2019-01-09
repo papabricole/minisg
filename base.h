@@ -12,6 +12,5 @@ class Base : public utils::refcounted
     Base();
 
     virtual std::string className() const = 0;
-    virtual void accept(Action* action) = 0;
 };
 }
