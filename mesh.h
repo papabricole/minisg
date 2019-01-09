@@ -13,6 +13,7 @@ namespace msg {
 
 class Mesh : public Node
 {
+    VISITOR_ACCEPT(Mesh)
   public:
     Mesh();
     const GLfloat* constData() const { return m_data.constData(); }
