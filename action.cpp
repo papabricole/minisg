@@ -8,6 +8,14 @@ Action::Action() {}
 void
 Action::apply(Node* node)
 {
+    before();
+    traversal(node);
+    after();
+}
+
+void
+Action::traversal(Node* node)
+{
     traverse(node);
 
     Group* group = dynamic_cast<Group*>(node);

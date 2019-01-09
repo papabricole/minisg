@@ -155,48 +155,6 @@ GLWidget::sizeHint() const
     return QSize(400, 400);
 }
 
-static void
-qNormalizeAngle(int& angle)
-{
-    while (angle < 0)
-        angle += 360 * 16;
-    while (angle > 360 * 16)
-        angle -= 360 * 16;
-}
-
-void
-GLWidget::setXRotation(int angle)
-{
-    qNormalizeAngle(angle);
-    if (angle != m_xRot) {
-        m_xRot = angle;
-        emit xRotationChanged(angle);
-        update();
-    }
-}
-
-void
-GLWidget::setYRotation(int angle)
-{
-    qNormalizeAngle(angle);
-    if (angle != m_yRot) {
-        m_yRot = angle;
-        emit yRotationChanged(angle);
-        update();
-    }
-}
-
-void
-GLWidget::setZRotation(int angle)
-{
-    qNormalizeAngle(angle);
-    if (angle != m_zRot) {
-        m_zRot = angle;
-        emit zRotationChanged(angle);
-        update();
-    }
-}
-
 void
 GLWidget::cleanup()
 {
@@ -282,12 +240,6 @@ GLWidget::paintGL()
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
 
-    // m_world.setToIdentity();
-    // m_world.rotate(180.0f - (m_xRot / 16.0f), 1, 0, 0);
-    // m_world.rotate(m_xRot / 16.0f, 1, 0, 0);
-    // m_world.rotate(m_yRot / 16.0f, 0, 1, 0);
-    // m_world.rotate(m_zRot / 16.0f, 0, 0, 1);
-
     QOpenGLVertexArrayObject::Binder vaoBinder(&m_vao);
     m_program->bind();
     m_program->setUniformValue(m_projMatrixLoc, m_camera->projectionMatrix());
@@ -316,19 +268,6 @@ GLWidget::mousePressEvent(QMouseEvent* event)
 void
 GLWidget::mouseMoveEvent(QMouseEvent* event)
 {
-#if 0
-    int dx = event->x() - m_lastPos.x();
-    int dy = event->y() - m_lastPos.y();
-
-    if (event->buttons() & Qt::LeftButton) {
-        setXRotation(m_xRot + 8 * dy);
-        setYRotation(m_yRot + 8 * dx);
-    } else if (event->buttons() & Qt::RightButton) {
-        setXRotation(m_xRot + 8 * dy);
-        setZRotation(m_zRot + 8 * dx);
-    }
-    m_lastPos = event->pos();
-#else
     if (event->buttons() & Qt::LeftButton) {
         const QVector3D lstart = sphereSheetProjector(getNormalizedPosition(m_lastPos));
         const QVector3D lend = sphereSheetProjector(getNormalizedPosition(event->pos()));
@@ -339,7 +278,6 @@ GLWidget::mouseMoveEvent(QMouseEvent* event)
         m_world *= m_lastWorld;
         update();
     }
-#endif
 }
 
 void

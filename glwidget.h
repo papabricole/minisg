@@ -30,16 +30,8 @@ class GLWidget
     QSize sizeHint() const override;
 
   public slots:
-    void setXRotation(int angle);
-    void setYRotation(int angle);
-    void setZRotation(int angle);
     void cleanup();
     void viewAll();
-
-  signals:
-    void xRotationChanged(int angle);
-    void yRotationChanged(int angle);
-    void zRotationChanged(int angle);
 
   protected:
     void initializeGL() override;
