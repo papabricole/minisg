@@ -56,9 +56,9 @@ LoadObj(const std::string& filename, msg::Mesh& mesh)
                 const QVector3D vp(attrib.vertices[3 * idx.vertex_index + 0],
                                    attrib.vertices[3 * idx.vertex_index + 1],
                                    attrib.vertices[3 * idx.vertex_index + 2]);
-                const QVector3D vn(attrib.normals[3 * idx.vertex_index + 0],
-                                   attrib.normals[3 * idx.vertex_index + 1],
-                                   attrib.normals[3 * idx.vertex_index + 2]);
+                const QVector3D vn(attrib.normals[3 * idx.normal_index + 0],
+                                   attrib.normals[3 * idx.normal_index + 1],
+                                   attrib.normals[3 * idx.normal_index + 2]);
                 mesh.add(vp, vn);
             }
             index_offset += fnum;

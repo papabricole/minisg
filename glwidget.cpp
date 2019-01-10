@@ -132,7 +132,7 @@ GLWidget::GLWidget(QWidget* parent)
     m_root->addChild(m_camera);
     m_root->addChild(m_mesh);
 
-    LoadObj("female-usertest.obj", *m_mesh);
+    LoadObj("Luminaris.obj", *m_mesh);
 
     msg::RenderAction action;
     action.apply(m_root);

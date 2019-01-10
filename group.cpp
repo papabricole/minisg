@@ -12,4 +12,10 @@ Group::addChild(Node* node)
 void
 Group::removeChild(Node* node)
 {}
+
+void
+Group::removeAllChildren()
+{
+    m_children.clear();
+}
 }

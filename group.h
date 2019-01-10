@@ -6,6 +6,8 @@
 
 namespace msg {
 
+using NodeList = std::vector<utils::refptr<Node>>;
+
 class Group : public Node
 {
     NODE_HEADER(Group)
@@ -14,12 +16,12 @@ class Group : public Node
 
     void addChild(Node* node);
     void removeChild(Node* node);
-
-    const std::vector<Node*>& children() const { return m_children; }
+    void removeAllChildren();
+    const NodeList& children() const { return m_children; }
 
   protected:
-    virtual ~Group();
+    virtual ~Group() override;
 
-    std::vector<Node*> m_children;
+    NodeList m_children;
 };
 }
