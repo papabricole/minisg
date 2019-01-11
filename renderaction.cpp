@@ -26,6 +26,6 @@ RenderAction::RenderAction()
 {
     std::cout << "num stack indices: " << Node::getNumStackIndices() << std::endl;
 
-    addHandler<Transform>(new TransformHandler);
+    setHandler<Transform>(new TransformHandler);
 }
 }

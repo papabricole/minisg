@@ -3,6 +3,7 @@
 #include <refptr.h>
 
 #include <vector>
+#include <iostream>
 
 namespace msg {
 
@@ -22,8 +23,10 @@ class Action
     void apply(Node* node);
 
     template<typename T>
-    void addHandler(NodeHandler* handler)
+    void setHandler(NodeHandler* handler)
     {
+        std::cout << "addHandler for " << T::getClassName() << " " << T::getClassStackIndex()
+                  << std::endl;
         m_handler[T::getClassStackIndex()] = handler;
     }
 

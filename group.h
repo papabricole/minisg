@@ -6,8 +6,6 @@
 
 namespace msg {
 
-using NodeList = std::vector<utils::refptr<Node>>;
-
 class Group : public Node
 {
     NODE_HEADER(Group)
@@ -21,7 +19,5 @@ class Group : public Node
 
   protected:
     virtual ~Group() override;
-
-    NodeList m_children;
 };
 }

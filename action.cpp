@@ -23,11 +23,8 @@ Action::traverse(Node* node)
     if (hdl)
         hdl->accept(node);
 
-    Group* group = dynamic_cast<Group*>(node);
-    if (group) {
-        for (Node* child : group->children()) {
-            traverse(child);
-        }
+    for (Node* child : node->m_children) {
+        traverse(child);
     }
 }
 }
