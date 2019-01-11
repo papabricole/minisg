@@ -23,6 +23,8 @@ class Mesh : public Node
 
     void add(const QVector3D& v, const QVector3D& n);
 
+    virtual void render() override;
+
   private:
     QVector<GLfloat> m_data;
     Box3D m_bbox;

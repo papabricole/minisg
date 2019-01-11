@@ -10,7 +10,12 @@ HEADERS       = glwidget.h \
     refptr.h \
     action.h \
     renderaction.h \
-    base.h
+    base.h \
+    transform.h \
+    element.h \
+    cameraelement.h \
+    meshelement.h \
+    transformelement.h
 
 SOURCES       = glwidget.cpp \
                 main.cpp \
@@ -23,7 +28,12 @@ SOURCES       = glwidget.cpp \
     group.cpp \
     action.cpp \
     renderaction.cpp \
-    base.cpp
+    base.cpp \
+    transform.cpp \
+    element.cpp \
+    cameraelement.cpp \
+    meshelement.cpp \
+    transformelement.cpp
 
 QT           += widgets
 CONFIG       -= app_bundle

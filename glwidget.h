@@ -7,8 +7,9 @@
 #include <QMatrix4x4>
 #include <QVector2D>
 
-#include "camera.h"
-#include "mesh.h"
+#include <camera.h>
+#include <transform.h>
+#include <mesh.h>
 #include <group.h>
 
 QT_FORWARD_DECLARE_CLASS(QOpenGLShaderProgram)
@@ -54,6 +55,7 @@ class GLWidget
     int m_zRot;
     QPoint m_lastPos;
     QMatrix4x4 m_lastWorld;
+    utils::refptr<msg::Transform> m_transform;
     utils::refptr<msg::Mesh> m_mesh;
     QOpenGLVertexArrayObject m_vao;
     QOpenGLBuffer m_meshVbo;

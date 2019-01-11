@@ -14,6 +14,10 @@ class RenderAction : public Action
     RenderAction();
 
   protected:
-    virtual void traverse(Node* node) override;
+    virtual void visit(Node* node) override;
+    virtual void visit(Group* node) override;
+    virtual void visit(Transform* node) override;
+    virtual void visit(Camera* node) override;
+    virtual void visit(Mesh* node) override;
 };
 }

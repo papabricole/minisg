@@ -58,6 +58,8 @@
 #include <QResource>
 #include <cmath>
 
+#include <iostream>
+
 bool GLWidget::m_transparent = false;
 
 QVector3D
@@ -127,15 +129,14 @@ GLWidget::GLWidget(QWidget* parent)
         setFormat(fmt);
     }
     m_root = new msg::Group();
+    m_transform = new msg::Transform();
     m_mesh = new msg::Mesh();
     m_camera = new msg::Camera();
+    m_root->addChild(m_transform);
     m_root->addChild(m_camera);
     m_root->addChild(m_mesh);
 
     LoadObj("Luminaris.obj", *m_mesh);
-
-    msg::RenderAction action;
-    action.apply(m_root);
 }
 
 GLWidget::~GLWidget()
@@ -236,17 +237,20 @@ GLWidget::setupVertexAttribs()
 void
 GLWidget::paintGL()
 {
+    msg::RenderAction action;
+    action.apply(m_root);
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
 
-    QOpenGLVertexArrayObject::Binder vaoBinder(&m_vao);
     m_program->bind();
     m_program->setUniformValue(m_projMatrixLoc, m_camera->projectionMatrix());
     m_program->setUniformValue(m_mvMatrixLoc, m_camera->viewMatrix() * m_world);
     QMatrix3x3 normalMatrix = m_world.normalMatrix();
     m_program->setUniformValue(m_normalMatrixLoc, normalMatrix);
 
+    QOpenGLVertexArrayObject::Binder vaoBinder(&m_vao);
     glDrawArrays(GL_TRIANGLES, 0, m_mesh->vertexCount());
 
     m_program->release();

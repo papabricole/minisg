@@ -18,4 +18,8 @@ Mesh::add(const QVector3D& v, const QVector3D& n)
 
     m_bbox.extendBy(v);
 }
+
+void
+Mesh::render()
+{}
 }

@@ -9,19 +9,19 @@ void
 Action::apply(Node* node)
 {
     before();
-    traversal(node);
+    traverse(node);
     after();
 }
 
 void
-Action::traversal(Node* node)
+Action::traverse(Node* node)
 {
-    traverse(node);
+    node->accept(this);
 
     Group* group = dynamic_cast<Group*>(node);
     if (group) {
         for (Node* child : group->children()) {
-            apply(child);
+            traverse(child);
         }
     }
 }
