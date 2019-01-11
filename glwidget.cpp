@@ -128,15 +128,15 @@ GLWidget::GLWidget(QWidget* parent)
         fmt.setAlphaBufferSize(8);
         setFormat(fmt);
     }
-    m_root = new msg::Group();
-    m_transform = new msg::Transform();
-    m_mesh = new msg::Mesh();
-    m_camera = new msg::Camera();
+    m_root = std::make_shared<msg::Group>();
+    m_transform = std::make_shared<msg::Transform>();
+    m_mesh = std::make_shared<msg::Mesh>();
+    m_camera = std::make_shared<msg::Camera>();
 
-    msg::Group* transgrp = new msg::Group();
+    std::shared_ptr<msg::Group> transgrp = std::make_shared<msg::Group>();
 
     transgrp->addChild(m_transform);
-    transgrp->addChild(new msg::Transform());
+    transgrp->addChild(std::make_shared<msg::Transform>());
     m_root->addChild(transgrp);
     m_root->addChild(m_camera);
     m_root->addChild(m_mesh);

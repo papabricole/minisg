@@ -6,13 +6,13 @@ NODE_SOURCE(Group)
 Group::Group() {}
 Group::~Group() {}
 void
-Group::addChild(Node* node)
+Group::addChild(const std::shared_ptr<Node>& node)
 {
     m_children.push_back(node);
 }
 
 void
-Group::removeChild(Node* node)
+Group::removeChild(const std::shared_ptr<Node>& node)
 {}
 
 void

@@ -10,20 +10,20 @@ Action::Action()
 }
 
 void
-Action::apply(Node* node)
+Action::apply(const std::shared_ptr<Node>& node)
 {
     traverse(node);
 }
 
 void
-Action::traverse(Node* node)
+Action::traverse(const std::shared_ptr<Node>& node)
 {
-    NodeHandler* hdl = m_handler[node->classStackIndex()];
+    std::shared_ptr<NodeHandler> hdl = m_handler[node->classStackIndex()];
 
     if (hdl)
         hdl->accept(node);
 
-    for (Node* child : node->m_children) {
+    for (std::shared_ptr<Node>& child : node->m_children) {
         traverse(child);
     }
 }

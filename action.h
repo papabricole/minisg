@@ -1,7 +1,6 @@
 #pragma once
 
-#include <refptr.h>
-
+#include <memory>
 #include <vector>
 #include <iostream>
 
@@ -9,10 +8,10 @@ namespace msg {
 
 class Node;
 
-class NodeHandler : public utils::refcounted
+class NodeHandler
 {
   public:
-    virtual void accept(Node* node) = 0;
+    virtual void accept(const std::shared_ptr<Node>& node) = 0;
 };
 
 class Action
@@ -20,10 +19,10 @@ class Action
   public:
     Action();
 
-    void apply(Node* node);
+    void apply(const std::shared_ptr<Node>& node);
 
     template<typename T>
-    void setHandler(NodeHandler* handler)
+    void setHandler(const std::shared_ptr<NodeHandler>& handler)
     {
         std::cout << "addHandler for " << T::getClassName() << " " << T::getClassStackIndex()
                   << std::endl;
@@ -31,8 +30,8 @@ class Action
     }
 
   protected:
-    void traverse(Node* node);
+    void traverse(const std::shared_ptr<Node>& node);
 
-    std::vector<utils::refptr<NodeHandler>> m_handler;
+    std::vector<std::shared_ptr<NodeHandler>> m_handler;
 };
 }

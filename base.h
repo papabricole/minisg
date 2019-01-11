@@ -1,12 +1,11 @@
 #pragma once
 
-#include <refptr.h>
 #include <action.h>
 #include <string>
 
 namespace msg {
 
-class Base : public utils::refcounted
+class Base
 {
   public:
     Base();

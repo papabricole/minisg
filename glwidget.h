@@ -48,15 +48,15 @@ class GLWidget
         return QVector2D(pos.x() / float(width()), pos.y() / float(height()));
     }
 
-    utils::refptr<msg::Group> m_root;
+    std::shared_ptr<msg::Group> m_root;
 
     int m_xRot;
     int m_yRot;
     int m_zRot;
     QPoint m_lastPos;
     QMatrix4x4 m_lastWorld;
-    utils::refptr<msg::Transform> m_transform;
-    utils::refptr<msg::Mesh> m_mesh;
+    std::shared_ptr<msg::Transform> m_transform;
+    std::shared_ptr<msg::Mesh> m_mesh;
     QOpenGLVertexArrayObject m_vao;
     QOpenGLBuffer m_meshVbo;
     QOpenGLShaderProgram* m_program;
@@ -64,7 +64,7 @@ class GLWidget
     int m_mvMatrixLoc;
     int m_normalMatrixLoc;
     int m_lightPosLoc;
-    utils::refptr<msg::Camera> m_camera;
+    std::shared_ptr<msg::Camera> m_camera;
     QMatrix4x4 m_world;
     static bool m_transparent;
 };

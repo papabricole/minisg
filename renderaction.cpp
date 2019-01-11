@@ -16,7 +16,7 @@ namespace msg {
 class TransformHandler : public NodeHandler
 {
   public:
-    virtual void accept(Node* node) override
+    virtual void accept(const std::shared_ptr<Node>& node) override
     {
         std::cout << "transform handler " << this << " for " << node->className() << std::endl;
     }
@@ -26,6 +26,6 @@ RenderAction::RenderAction()
 {
     std::cout << "num stack indices: " << Node::getNumStackIndices() << std::endl;
 
-    setHandler<Transform>(new TransformHandler);
+    setHandler<Transform>(std::make_shared<TransformHandler>());
 }
 }

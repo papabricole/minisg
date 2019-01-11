@@ -11,13 +11,11 @@ class Group : public Node
     NODE_HEADER(Group)
   public:
     Group();
+    virtual ~Group() override;
 
-    void addChild(Node* node);
-    void removeChild(Node* node);
+    void addChild(const std::shared_ptr<Node>& node);
+    void removeChild(const std::shared_ptr<Node>& node);
     void removeAllChildren();
     const NodeList& children() const { return m_children; }
-
-  protected:
-    virtual ~Group() override;
 };
 }

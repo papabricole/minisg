@@ -2,6 +2,7 @@
 
 #include <base.h>
 
+#include <memory>
 #include <vector>
 
 namespace msg {
@@ -18,7 +19,7 @@ class Element;
 
 #define NODE_SOURCE(classname) int classname::s_classStackIndex = Node::createStackIndex();
 
-using NodeList = std::vector<utils::refptr<Node>>;
+using NodeList = std::vector<std::shared_ptr<Node>>;
 
 class Node : public Base
 {
