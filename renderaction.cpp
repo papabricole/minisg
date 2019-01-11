@@ -18,7 +18,7 @@ class TransformHandler : public NodeHandler
   public:
     virtual void accept(Node* node) override
     {
-        std::cout << "handler " << this << " for " << node->className() << std::endl;
+        std::cout << "transform handler " << this << " for " << node->className() << std::endl;
     }
 };
 

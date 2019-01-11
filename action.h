@@ -1,12 +1,14 @@
 #pragma once
 
+#include <refptr.h>
+
 #include <vector>
 
 namespace msg {
 
 class Node;
 
-class NodeHandler
+class NodeHandler : public utils::refcounted
 {
   public:
     virtual void accept(Node* node) = 0;
@@ -28,6 +30,6 @@ class Action
   protected:
     void traverse(Node* node);
 
-    std::vector<msg::NodeHandler*> m_handler;
+    std::vector<utils::refptr<NodeHandler>> m_handler;
 };
 }
