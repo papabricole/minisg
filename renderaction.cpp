@@ -13,40 +13,19 @@
 
 namespace msg {
 
+class TransformHandler : public NodeHandler
+{
+  public:
+    virtual void accept(Node* node) override
+    {
+        std::cout << "handler " << this << " for " << node->className() << std::endl;
+    }
+};
+
 RenderAction::RenderAction()
 {
-    std::cout << "num stack indices: " << Element::getNumStackIndices() << std::endl;
-}
+    std::cout << "num stack indices: " << Node::getNumStackIndices() << std::endl;
 
-void
-RenderAction::visit(Node* node)
-{
-    std::cout << node->className() << " rendered by Node" << std::endl;
-}
-void
-RenderAction::visit(Group* node)
-{
-    std::cout << node->className() << " rendered by Group" << std::endl;
-}
-void
-RenderAction::visit(Transform* node)
-{
-    std::cout << node->className() << " rendered by Transform" << std::endl;
-}
-void
-RenderAction::visit(Camera* node)
-{
-    std::cout << node->className() << " rendered by Camera" << std::endl;
-    CameraElement* ce = CameraElement::get(node);
-    std::cout << "element: " << ce->className() << " stack index: " << ce->getClassStackIndex()
-              << std::endl;
-}
-void
-RenderAction::visit(Mesh* node)
-{
-    std::cout << node->className() << " rendered by Mesh" << std::endl;
-    MeshElement* ce = MeshElement::get(node);
-    std::cout << "element: " << ce->className() << " stack index: " << ce->getClassStackIndex()
-              << std::endl;
+    addHandler<Transform>(new TransformHandler);
 }
 }

@@ -1,6 +1,8 @@
 #include "group.h"
 
 namespace msg {
+NODE_SOURCE(Group)
+
 Group::Group() {}
 Group::~Group() {}
 void

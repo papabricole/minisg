@@ -3,20 +3,25 @@
 #include "group.h"
 
 namespace msg {
-Action::Action() {}
+
+Action::Action()
+{
+    m_handler.resize(Node::getNumStackIndices(), nullptr);
+}
 
 void
 Action::apply(Node* node)
 {
-    before();
     traverse(node);
-    after();
 }
 
 void
 Action::traverse(Node* node)
 {
-    node->accept(this);
+    NodeHandler* hdl = m_handler[node->classStackIndex()];
+
+    if (hdl)
+        hdl->accept(node);
 
     Group* group = dynamic_cast<Group*>(node);
     if (group) {

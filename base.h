@@ -12,6 +12,11 @@ class Base : public utils::refcounted
     Base();
 
     virtual std::string className() const = 0;
-    virtual void accept(Action* action) = 0;
+    virtual int classStackIndex() const = 0;
+
+  protected:
+    static int s_nextStackIndex;
+    static int s_classStackIndex;
+    static int createStackIndex();
 };
 }

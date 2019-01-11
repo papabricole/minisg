@@ -1,6 +1,8 @@
 #include "mesh.h"
 
 namespace msg {
+NODE_SOURCE(Mesh)
+
 Mesh::Mesh()
 {
     m_data.reserve(2500 * 6);

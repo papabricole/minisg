@@ -2,6 +2,9 @@
 #include <element.h>
 
 namespace msg {
+
+NODE_SOURCE(Node)
+
 std::vector<Element*> Node::m_elements;
 
 Node::Node()

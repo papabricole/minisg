@@ -6,6 +6,8 @@
 
 namespace msg {
 
+NODE_SOURCE(Camera)
+
 Camera::Camera()
   : m_nearDistance(0.01f)
   , m_farDistance(100.f)

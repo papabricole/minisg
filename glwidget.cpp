@@ -133,6 +133,7 @@ GLWidget::GLWidget(QWidget* parent)
     m_mesh = new msg::Mesh();
     m_camera = new msg::Camera();
     m_root->addChild(m_transform);
+    m_root->addChild(new msg::Transform());
     m_root->addChild(m_camera);
     m_root->addChild(m_mesh);
 

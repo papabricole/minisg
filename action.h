@@ -1,12 +1,16 @@
 #pragma once
 
+#include <vector>
+
 namespace msg {
 
 class Node;
-class Group;
-class Transform;
-class Camera;
-class Mesh;
+
+class NodeHandler
+{
+  public:
+    virtual void accept(Node* node) = 0;
+};
 
 class Action
 {
@@ -15,15 +19,15 @@ class Action
 
     void apply(Node* node);
 
-    virtual void before() {}
-    virtual void visit(Node* node) = 0;
-    virtual void visit(Group* node) = 0;
-    virtual void visit(Transform* node) = 0;
-    virtual void visit(Camera* node) = 0;
-    virtual void visit(Mesh* node) = 0;
-    virtual void after() {}
+    template<typename T>
+    void addHandler(NodeHandler* handler)
+    {
+        m_handler[T::getClassStackIndex()] = handler;
+    }
 
   protected:
     void traverse(Node* node);
+
+    std::vector<msg::NodeHandler*> m_handler;
 };
 }
