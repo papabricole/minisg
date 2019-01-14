@@ -1,6 +1,6 @@
 #pragma once
 
-#include "mesh.h"
+#include <nodes/mesh.h>
 
 bool
 LoadObj(const std::string& filename, msg::Mesh& mesh);

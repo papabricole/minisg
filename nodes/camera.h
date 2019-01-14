@@ -2,7 +2,7 @@
 
 #include <QMatrix4x4>
 
-#include <node.h>
+#include <nodes/node.h>
 #include <box3d.h>
 
 namespace msg {

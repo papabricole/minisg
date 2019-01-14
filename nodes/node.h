@@ -1,13 +1,11 @@
 #pragma once
 
-#include <base.h>
+#include <nodes/base.h>
 
 #include <memory>
 #include <vector>
 
 namespace msg {
-
-class Element;
 
 #define NODE_HEADER(classname)                                                                     \
   public:                                                                                          \
@@ -26,10 +24,6 @@ class Node : public Base
     NODE_HEADER(Node)
   public:
     Node();
-
-    virtual void render() {}
-
-    static std::vector<msg::Element*> m_elements;
 
     static int getNumStackIndices() { return s_nextStackIndex; }
 

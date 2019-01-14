@@ -1,6 +1,6 @@
 #include "action.h"
-#include "node.h"
-#include "group.h"
+#include <nodes/node.h>
+#include <nodes/group.h>
 
 namespace msg {
 

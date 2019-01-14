@@ -1,4 +1,4 @@
-#include <camera.h>
+#include <nodes/camera.h>
 
 #include <cmath>
 

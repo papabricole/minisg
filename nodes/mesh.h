@@ -6,7 +6,7 @@
 #include <QVector>
 #include <QVector3D>
 
-#include <node.h>
+#include <nodes/node.h>
 #include <box3d.h>
 
 namespace msg {
@@ -22,8 +22,6 @@ class Mesh : public Node
     const Box3D& box() const { return m_bbox; }
 
     void add(const QVector3D& v, const QVector3D& n);
-
-    virtual void render() override;
 
   private:
     QVector<GLfloat> m_data;

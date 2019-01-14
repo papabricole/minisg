@@ -1,13 +1,13 @@
 #include "renderaction.h"
-#include "node.h"
-#include "group.h"
-#include "transform.h"
-#include "camera.h"
-#include "mesh.h"
-#include "element.h"
+#include <nodes/node.h>
+#include <nodes/group.h>
+#include <nodes/transform.h>
+#include <nodes/camera.h>
+#include <nodes/mesh.h>
 
-#include "cameraelement.h"
-#include "meshelement.h"
+#include <elements/element.h>
+#include <elements/cameraelement.h>
+#include <elements/meshelement.h>
 
 #include <iostream>
 

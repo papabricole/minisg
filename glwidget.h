@@ -7,10 +7,10 @@
 #include <QMatrix4x4>
 #include <QVector2D>
 
-#include <camera.h>
-#include <transform.h>
-#include <mesh.h>
-#include <group.h>
+#include <nodes/camera.h>
+#include <nodes/transform.h>
+#include <nodes/mesh.h>
+#include <nodes/group.h>
 
 QT_FORWARD_DECLARE_CLASS(QOpenGLShaderProgram)
 

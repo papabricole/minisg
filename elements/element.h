@@ -1,6 +1,6 @@
 #pragma once
 
-#include <node.h>
+#include <state.h>
 
 #include <string>
 #include <iostream>
@@ -12,13 +12,12 @@ namespace msg {
     virtual std::string className() const override { return #classname; }                          \
     static int classStackIndex;                                                                    \
     static int getClassStackIndex() { return classStackIndex; }                                    \
-    static classname* get(Node* node)                                                              \
+    static classname* get(State* state)                                                            \
     {                                                                                              \
-        classname* elt = static_cast<classname*>(node->m_elements[classStackIndex]);               \
+        classname* elt = static_cast<classname*>(state->m_elements[classStackIndex]);              \
         if (!elt) {                                                                                \
-            std::cout << "creating new element for " << node->className() << std::endl;            \
             elt = new classname;                                                                   \
-            node->m_elements[classStackIndex] = elt;                                               \
+            state->m_elements[classStackIndex] = elt;                                              \
         }                                                                                          \
         return elt;                                                                                \
     }
